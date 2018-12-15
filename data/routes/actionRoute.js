@@ -58,7 +58,31 @@ router.post('/', (req, res) => {
   } else {
     res
       .status(400)
-      .json({message: "Missing on or more (project_id/description/notes) "})
+      .json({message: "Missing on or more (project_id/description/notes)"})
+  }
+})
+
+//Edit an action 
+router.put('/:id', (req,res) => {
+  const {id} = req.params;
+  const action = req.body;
+  if(action.project_id && action.description && action.notes) {
+    actionDb.update(id, action)
+      .then(updatedAction => {
+        console.log(updatedAction)
+        res
+          .status(201)
+          .json(updatedAction)
+      })
+      .catch(err => {
+        res
+          .status(500)
+          .json({message: "Could not update the action"})
+      })
+  } else {
+    res
+      .status(400)
+      .json({message: "Missing on or more (project_id/description/notes)"})
   }
 })
 
