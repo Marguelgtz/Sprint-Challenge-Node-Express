@@ -64,4 +64,43 @@ router.post('/', (req, res) => {
   }
 })
 
+//Update Project
+router.put('/:id', (req, res) => {
+  const {id} = req.params;
+  const project = req.body;
+  if(project.name && project.description) {
+    projectDb.update(id, project)
+      .then(updatedProject => {
+        res
+          .status(201)
+          .json({Updated: updatedProject})
+      })
+      .catch(err => {
+        res
+          .status(500)
+          .json({message: "Failed to update Project"})
+      })
+  } else {
+    res
+      .status(400)
+      .json({message: "Missing one or more (name/description)"})
+  }
+})
+
+//Delete Project
+router.delete('/:id', (req, res) => {
+  const {id} = req.params;
+  projectDb.remove(id)
+    .then(count => {
+      res 
+        .status(200)
+        .json({message: `${count} deletion`})
+    })
+    .catch(err => {
+      res
+        .status(500)
+        .json({message: "Failed to delete project"})
+    })
+})
+
 module.exports = router;
