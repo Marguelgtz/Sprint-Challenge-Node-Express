@@ -86,4 +86,21 @@ router.put('/:id', (req,res) => {
   }
 })
 
+//Delete Action
+router.delete('/:id', (req, res) => {
+  const {id} = req.params;
+  actionDb.remove(id)
+    .then(count => {
+      console.log(count)
+      res
+        .status(200)
+        .json({message:`${count} action removed`})
+    })
+    .catch(err => {
+      res
+        .status(500)
+        .catch({message: "Failed to remove Action"})
+    })
+})
+
 module.exports = router;
