@@ -2,7 +2,8 @@ const express = require('express');
 const helmet = require('helmet');
 const logger = require('morgan');
 
-
+const projectRoute = require('./data/routes/projectRoute')
+const actionRoute = require('./data/routes/actionRoute')
 
 const server = express();
 const parser = express.json();
@@ -15,6 +16,8 @@ server.use(
   logger('dev'),
 )
 //Routes 
+server.use('/api/projects', projectRoute)
+server.use('/api/actions', actionRoute)
 
 //Listening
 server.listen(PORT, () => {
